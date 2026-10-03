@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuis UKMPPD THT – Pemeriksaan THT</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mu:#64708a;--br:#d8deeb;--pr:#2f5597;--ok:#1e8e4e;--okb:#e4f5ea;--no:#c0392b;--nob:#fbe9e7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141f;--card:#19202f;--tx:#e8ecf5;--mu:#94a0ba;--br:#2c364c;--pr:#7ea3e6;--okb:#143324;--nob:#3a1d1a;--ok:#56c785;--no:#ef7a6c}}
+:root[data-theme="dark"]{--bg:#10141f;--card:#19202f;--tx:#e8ecf5;--mu:#94a0ba;--br:#2c364c;--pr:#7ea3e6;--okb:#143324;--nob:#3a1d1a;--ok:#56c785;--no:#ef7a6c}
+*{box-sizing:border-box}html,body{margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:.2rem 0}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:18px;margin-top:14px}
+.mu{color:var(--mu);font-size:.9rem}
+.bar{height:6px;background:var(--br);border-radius:9px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--pr);transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--pr);color:#fff}
+.q{margin:12px 0;font-size:1.02rem}
+.o{display:flex;gap:10px;width:100%;text-align:left;background:var(--card);color:var(--tx);border:1.5px solid var(--br);border-radius:10px;padding:10px 12px;margin:8px 0;font:inherit;cursor:pointer}
+.o:hover:not(:disabled){border-color:var(--pr)}
+.o b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:.8rem}
+.o.ok{background:var(--okb);border-color:var(--ok)}.o.no{background:var(--nob);border-color:var(--no)}
+.ex{margin-top:12px;padding:12px;border-radius:10px;background:var(--bg);border-left:4px solid var(--pr);font-size:.93rem}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px}
+.btn.g{background:transparent;color:var(--pr);border:1.5px solid var(--pr)}
+.big{font-size:2.6rem;font-weight:800;color:var(--pr)}
+.rv{border-top:1px solid var(--br);padding:10px 0;font-size:.9rem}
+</style></head><body><div class="w" id="app"></div>
+<script>
+// Format: [level, soal, [jawaban BENAR, salah, salah, salah, salah], pembahasan]
+const D=[
+["C1","Pada persiapan pemeriksaan THT, hal yang tidak boleh dilupakan sebelum memeriksa pasien adalah…",["Informed consent dan cuci tangan","Pemberian antibiotik","Foto rontgen","Pemasangan infus","Pemeriksaan darah lengkap"],"Slide menekankan inform consent dan cuci tangan sebelum pemeriksaan THT."],
+["C1","Posisi pasien anak saat pemeriksaan THT yang benar adalah…",["Dipangku orang tua, kaki orang tua bersilangan dengan kaki pemeriksa, tangan dan kepala dipegang","Berbaring telentang sendiri","Berdiri di depan pemeriksa","Duduk sendiri tanpa dipegang","Telungkup"],"Anak dipangku orang tua; kaki orang tua bersilangan dengan kaki pemeriksa; orang tua memegang kedua tangan dan kepala anak."],
+["C1","Pemeriksaan bagian dalam rongga hidung dari depan menggunakan spekulum hidung disebut…",["Rinoskopi anterior","Rinoskopi posterior","Nasofaringoskopi","Laringoskopi indirek","Otoskopi"],"Rinoskopi anterior memeriksa rongga hidung bagian dalam dari depan dengan spekulum hidung."],
+["C2","Pada pemeriksaan vestibulum nasi sebaiknya tidak langsung memakai spekulum karena…",["Bilah spekulum dapat menutupi papiloma, kista, titik perdarahan; periksa dahulu tanpa spekulum untuk furunkel","Spekulum merusak septum","Pasien menolak","Spekulum menimbulkan infeksi","Hidung terlalu lebar"],"Pemeriksaan awal vestibulum tanpa spekulum: ujung hidung diangkat untuk melihat kemerahan/pembengkakan (furunkulosis) dan kelainan yang tertutup bilah spekulum."],
+["C3","Pada rinoskopi anterior, konka inferior memenuhi 51–75% jalan napas. Gradenya?",["Grade 3 (pembesaran sedang–berat)","Grade 1","Grade 2","Grade 4","Grade 0"],"Klasifikasi konka inferior Camacho: grade 1 0–25%, grade 2 26–50%, grade 3 51–75%, grade 4 76–100%."],
+["C2","Agar rongga hidung lebih lapang pada rinoskopi anterior saat mukosa edema, dimasukkan…",["Tampon kapas adrenalin-pantokain","Air hangat","Salin steril","Parafin","Antibiotik topikal"],"Kapas adrenalin-pantokain beberapa menit mengurangi edema mukosa dan menciutkan konka sehingga struktur terlihat jelas."],
+["C1","Pemeriksaan untuk melihat nasofaring (bagian belakang hidung) disebut…",["Rinoskopi posterior","Rinoskopi anterior","Otoskopi","Palpasi sinus","Tes bisik"],"Rinoskopi posterior memakai spatula lidah dan kaca nasofaring yang dihangatkan untuk melihat belakang hidung dan nasofaring."],
+["C2","Saat rinoskopi posterior, kaca nasofaring dimasukkan setelah…",["Suhunya dites pada kulit belakang tangan kiri pemeriksa","Direndam es","Dibasahi alkohol","Tanpa dites","Didinginkan"],"Kaca dihangatkan dengan lampu spiritus agar tidak mengembun, lalu suhu dites pada kulit punggung tangan kiri pemeriksa."],
+["C1","Pasien rinoskopi posterior diminta bernapas lewat mulut agar…",["Uvula terangkat sehingga kaca bisa masuk nasofaring","Lidah menjulur","Gigi tidak terlihat","Hidung terbuka lebar","Suara jernih"],"Napas mulut mengangkat uvula; setelah kaca di nasofaring pasien bernapas hidung agar uvula turun dan nasofaring terbuka."],
+["C2","Pada rinoskopi posterior, struktur yang tampak setelah kaca diputar lateral adalah…",["Torus tubarius, muara tuba Eustachius, fossa Rosenmuller","Epiglotis dan valekula","Pita suara","Tonsil palatina","Fossa piriformis"],"Kaca diputar lateral untuk melihat konka, meatus, torus tubarius, muara tuba, dan fossa Rosenmuller."],
+["C2","Pemeriksaan transiluminasi sinus paranasal memiliki kegunaan…",["Sangat terbatas dan tidak menggantikan radiologi","Menggantikan CT scan","Diagnosis pasti sinusitis","Mengukur pendengaran","Menilai penghidu"],"Transiluminasi (sinus maksila dan frontal di ruang gelap) bermanfaat terbatas dan tidak dapat menggantikan pemeriksaan radiologik."],
+["C1","Posisi foto radiologi sinus paranasal untuk menilai sinus maksila adalah…",["Water's","Lateral","Caldwell","Towne","Panoramik"],"Water's untuk sinus maksila; PA untuk frontal dan etmoid; lateral untuk sfenoid; CT scan untuk kompleks osteomeatal."],
+["C3","Pasien sinusitis, setelah cairan di meatus media dibersihkan, cairan menumpuk kembali setelah kepala diputar ke sisi sehat dan pasien kembali tegak. Sinus yang terlibat?",["Sinus maksila","Sinus frontal","Sinus sfenoid","Sinus etmoid posterior","Tidak ada"],"Bila cairan tidak segera menumpuk, kepala diputar ke sisi sehat; penumpukan kembali setelah tegak menunjukkan keterlibatan sinus maksila."],
+["C3","Remaja nyeri tenggorok, demam, eksudat tonsil, nyeri tekan KGB servikal anterior, tanpa batuk. Kriteria Centor digunakan untuk memprediksi…",["Faringitis oleh Streptokokus beta hemolitikus grup A","Tonsilitis difteri","Faringitis virus","Abses peritonsil","Karsinoma laring"],"Kriteria Centor memprediksi faringitis bakteri Streptococcus β hemolitikus grup A vs virus."],
+["C2","Teknik menekan lidah yang benar pada pemeriksaan orofaring menurut slide adalah…",["Menekan 2/3 anterior lidah atau sisi lateral karena otot lebih sedikit, diperiksa kanan dan kiri","Menekan pangkal lidah kuat","Menekan palatum","Tanpa spatula","Menekan uvula"],"Lidah tidak bertulang namun banyak otot di medial; menekan daerah lateral lidah (kanan dan kiri) karena ototnya lebih sedikit."],
+["C4","Pria 22 tahun nyeri telan hebat satu sisi, trismus, uvula terdorong ke sisi kontralateral, tonsil terdorong ke medial. Diagnosis?",["Abses peritonsil","Tonsilitis folikularis","Tonsilitis kronis","Mononukleosis","Faringitis akut"],"Pemeriksaan tonsil: satu spatula menekan lidah, satu menggeser tonsil; abses peritonsil menonjol dengan uvula terdorong kontralateral."],
+["C4","Anak datang dengan stridor inspirasi berat dan drooling. Pemeriksaan yang KONTRAINDIKASI?",["Laringoskopi indirek (risiko obstruksi total)","Pengukuran suhu","Pulse oksimetri","Observasi","Rontgen leher lateral"],"Kontraindikasi laringoskopi indirek: obstruksi jalan napas (stridor): atas → stridor inspirasi, bawah → ekspirasi, faring → keduanya."],
+["C2","Laringoskopi indirek memerlukan alat…",["Kaca laring, lampu kepala, lampu spiritus, anestesi lokal","Otoskop","Spekulum hidung saja","Garpu tala","Audiometer"],"Alat: lampu kepala, penekan lidah, lidokain 2%, kaca laring beberapa ukuran, lampu spiritus, cunam."],
+["C1","Kelainan telinga luar berupa lubang kecil di depan tragus sejak lahir adalah…",["Fistel preaurikular","Keratosis obturans","Kolesteatom","Polip telinga","Miringitis bulosa"],"Fistel preaurikular adalah kelainan kongenital berupa lubang kecil di depan tragus/heliks."],
+["C3","Atlet gulat dengan benjolan merah kebiruan di daun telinga setelah trauma. Diagnosis dan terapi?",["Hematoma aurikula; aspirasi/insisi dan balut tekan","Perikondritis; antibiotik topikal","Eksim; steroid topikal","Fistel; eksisi","Kista; observasi"],"Hematoma aurikula bila tidak ditangani menjadi perikondritis dan cauliflower ear."],
+["C4","Remaja nyeri telinga kiri 2 hari, vesikel di liang telinga, tidak dapat menutup mata dan wajah mencong sisi kiri. Diagnosis?",["Sindrom Ramsay Hunt (herpes zoster oticus)","Otitis eksterna biasa","OMA","Abses Bezold","Miringitis bulosa"],"Q.9 slide: nyeri telinga + gatal + paralisis fasialis (tidak dapat menutup mata) = Ramsay Hunt syndrome."],
+["C4","Anak otore kronik, benjolan retroaurikular fluktuatif, daun telinga terdorong ke lateral dan bawah. Diagnosis dan terapi?",["Abses mastoid (subperiosteal); drainase dan mastoidektomi","Abses retroaurikula superfisial","Hematoma aurikula","Furunkel MAE","Perikondritis"],"Q.29 slide: abses mastoid di bawah periosteum, daun telinga terdorong ke lateral; abses retroaurikula lebih superfisial."],
+["C3","Pasien mengeluh batuk saat liang telinga dikorek. Penjelasan anatomis yang benar?",["Cabang aurikular n. vagus (Arnold) menyarafi liang telinga","N. fasialis","N. trigeminus","N. optikus","N. hipoglosus"],"Cabang aurikular n. vagus menyarafi dinding posterior liang telinga sehingga manipulasi dapat memicu batuk, bersin, bahkan sinkop."],
+["C3","Saat membersihkan serumen prop, pasien tiba-tiba pucat, bradikardi, pingsan. Penyebab dan antisipasi?",["Refleks vagal; pasien duduk dengan penyangga","Alergi lidokain; infus","Hipoglikemia","Stroke","Perforasi MT"],"Manipulasi liang telinga dapat menimbulkan depresi jantung/sinkop melalui n. vagus; pasien harus duduk dengan penyangga."],
+["C4","Pasien DM lansia nyeri telinga hebat malam hari, otore kronik, granulasi di dasar liang telinga, tidak membaik dengan tetes biasa. Diagnosis?",["Otitis eksterna maligna (nekrotikans)","Otitis eksterna sirkumskripta","OMSK benigna","Miringitis bulosa","Eksim telinga"],"Otitis eksterna maligna berkaitan dengan riwayat DM, bukan karsinoma; disebabkan Pseudomonas."],
+["C3","Pasien dengan membran timpani hiperemis dan titik berdenyut (pulsating point). Stadium OMA?",["Stadium supurasi (eksudasi akhir)","Stadium resolusi","Stadium oklusi","OMSK","OME"],"OMA tahap supurasi: pulsating point menunjukkan lokasi pecahnya membran timpani."],
+["C2","Cara membedakan tuli konduktif dan sensorineural dengan garpu tala 512 Hz yang paling umum adalah…",["Tes Rinne, Weber, Schwabach","Tes bisik saja","Tes Valsalva","Tes Toynbee","Tes penghidu"],"Tes garpu tala: Rinne, Weber, Schwabach; Stenger test membuktikan pasien berpura-pura tuli (prinsip masking)."],
+["C4","Tes Rinne negatif pada telinga kanan dan Weber lateralisasi ke kanan. Interpretasi?",["Tuli konduktif telinga kanan","Tuli sensorineural kanan","Normal","Tuli sensorineural kiri","Tuli campur kiri"],"Rinne negatif (BC > AC) dan Weber lateralisasi ke telinga yang sakit = tuli konduktif."],
+["C4","Pasien mengaku tuli total telinga kiri namun merespons saat bisikan di telinga kanan dengan masking. Tes yang membuktikan pura-pura tuli?",["Tes Stenger","Tes Rinne","Tes Weber","Tes Toynbee","Tes Valsalva"],"Stenger test: membuktikan pasien berpura-pura, memakai prinsip masking dengan dua garpu tala."],
+["C3","Pasien dengan disfungsi tuba (tubair katar) diminta menutup hidung, menelan, dan melihat gerak membran timpani. Tes yang dimaksud?",["Toynbee","Valsalva","Rinne","Schwabach","Stenger"],"Valsalva: meniup dengan hidung ditutup (MT bergerak keluar); Toynbee: menelan dengan hidung ditutup."]
+];
+const $=id=>document.getElementById(id),app=$('app');
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let Q,i,score,log;
+function start(){Q=sh(D).map(d=>{const o=sh(d[2].map((t,k)=>({t,c:k===0})));return{l:d[0],q:d[1],o,e:d[3]}});i=0;score=0;log=[];show();scrollTo(0,0)}
+function intro(){app.innerHTML=`<h1>Kuis Kasus UKMPPD – Pemeriksaan THT</h1><p class="mu">Pemeriksaan hidung, faring, laring, telinga, dan fungsi pendengaran.</p><div class="card"><p>30 soal kasus klinis (15 soal C1–C2 dan 15 soal C3–C4), 5 pilihan (A–E). Urutan soal dan pilihan diacak setiap kali kuis dimulai.</p><button class="btn" id="go">Mulai Kuis</button></div>`;$('go').onclick=start}
+function show(){if(i>=Q.length)return end();const q=Q[i];
+app.innerHTML=`<div class="top"><h1>Kuis THT</h1><span class="mu">Soal ${i+1}/${Q.length} · Skor ${score}</span></div><div class="bar"><i style="width:${i/Q.length*100}%"></i></div>
+<div class="card"><span class="tag">${q.l}</span><p class="q">${q.q}</p><div id="os">${q.o.map((o,k)=>`<button class="o" data-k="${k}"><b>${'ABCDE'[k]}</b><span>${o.t}</span></button>`).join('')}</div><div id="fb"></div></div>`;
+document.querySelectorAll('.o').forEach(b=>b.onclick=()=>pick(+b.dataset.k))}
+function pick(k){const q=Q[i],ok=q.o[k].c;if(ok)score++;log.push({q,ok,k});
+document.querySelectorAll('.o').forEach((b,n)=>{b.disabled=true;if(q.o[n].c)b.classList.add('ok');else if(n===k)b.classList.add('no')});
+$('fb').innerHTML=`<div class="ex"><b>${ok?'Benar ✓':'Salah ✗'}</b> — ${q.e}</div><button class="btn" id="nx">${i===Q.length-1?'Lihat Hasil':'Soal Berikutnya'}</button>`;
+$('nx').onclick=()=>{i++;show();scrollTo(0,0)}}
+function end(){const lv=l=>{const a=log.filter(x=>l.includes(x.q.l));return a.filter(x=>x.ok).length+'/'+a.length};
+const wr=log.filter(x=>!x.ok);
+app.innerHTML=`<h1>Hasil Kuis</h1><div class="card"><div class="big">${Math.round(score/Q.length*100)}%</div><p>Benar ${score} dari ${Q.length} soal.</p><p class="mu">C1–C2: ${lv(['C1','C2'])} · C3–C4: ${lv(['C3','C4'])}</p><button class="btn" id="rs">Ulangi (soal diacak ulang)</button></div>
+<div class="card"><b>Pembahasan soal yang salah (${wr.length})</b>${wr.length?wr.map(x=>`<div class="rv"><span class="tag">${x.q.l}</span> ${x.q.q}<br><span style="color:var(--no)">Jawabanmu: ${x.q.o[x.k].t}</span><br><span style="color:var(--ok)">Benar: ${x.q.o.find(o=>o.c).t}</span><br><span class="mu">${x.q.e}</span></div>`).join(''):'<p>Semua jawaban benar. Luar biasa!</p>'}</div>`;
+$('rs').onclick=start;scrollTo(0,0)}
+intro();
+</script></body></html>
